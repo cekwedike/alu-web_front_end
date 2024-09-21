@@ -1,23 +1,18 @@
 // Define a list of names
 $list_to_sort: john, anna, zoe, kim, felicia, carrie;
 
-// Function to sort the list
+// Function to sort the list using a simple bubble sort algorithm
 @function sort-list($list) {
-  $sorted: ();
-  $size: length($list);
-  @for $i from 1 through $size {
-    $min: nth($list, 1);
-    $min-index: 1;
-    @for $j from 2 through length($list) {
-      @if (nth($list, $j) < $min) {
-        $min: nth($list, $j);
-        $min-index: $j;
+  $length: length($list);
+  @for $i from 1 through $length {
+    @for $j from 1 through $length - $i {
+      @if (nth($list, $j) > nth($list, $j + 1)) {
+        $list: set-nth($list, $j, nth($list, $j + 1));
+        $list: set-nth($list, $j + 1, nth($list, $j));
       }
     }
-    $sorted: append($sorted, $min);
-    $list: remove-nth($list, $min-index);
   }
-  @return $sorted;
+  @return $list;
 }
 
 // Sorting the list
