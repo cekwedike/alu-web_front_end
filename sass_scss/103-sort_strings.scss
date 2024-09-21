@@ -1,10 +1,28 @@
-$list_to_sort: john anna zoe kim felicia carrie;
+// Define a list of names
+$list_to_sort: john, anna, zoe, kim, felicia, carrie;
 
-.sorted-list {
-  $sorted_list: ();
-  @each $item in $list_to_sort {
-    $sorted_list: append($sorted_list, $item, comma);
+// Function to sort the list
+@function sort-list($list) {
+  $sorted: ();
+  $size: length($list);
+  @for $i from 1 through $size {
+    $min: nth($list, 1);
+    $min-index: 1;
+    @for $j from 2 through length($list) {
+      @if (nth($list, $j) < $min) {
+        $min: nth($list, $j);
+        $min-index: $j;
+      }
+    }
+    $sorted: append($sorted, $min);
+    $list: remove-nth($list, $min-index);
   }
-  $sorted_list: sort($sorted_list, alphabetically);
-  @debug $sorted_list;
+  @return $sorted;
 }
+
+// Sorting the list
+$sorted_list: sort-list($list_to_sort);
+
+// Debug output of the sorted list
+@debug $sorted_list;
+
