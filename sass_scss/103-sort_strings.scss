@@ -1,3 +1,10 @@
 $list_to_sort: john anna zoe kim felicia carrie;
 
-@debug sort($list_to_sort);
+.sorted-list {
+  $sorted_list: ();
+  @each $item in $list_to_sort {
+    $sorted_list: append($sorted_list, $item, comma);
+  }
+  $sorted_list: sort($sorted_list, alphabetically);
+  @debug $sorted_list;
+}
